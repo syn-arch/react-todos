@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faTrash, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import swal from "sweetalert";
 
@@ -64,6 +64,7 @@ function App() {
     swal("Success!", "Task updated successfully", "success");
 
     setEditInput("");
+    setEditId("");
   };
 
   const handleDelete = (id) => {
@@ -121,7 +122,7 @@ function App() {
         </h2>
       </div>
       <div className="flex justify-center w-full -mt-10">
-        <div className="bg-white w-full md:w-1/2 p-5 shadow-lg">
+        <div className="bg-white w-full md:w-3/4 lg:w-1/2 p-5 shadow-lg mx-10">
           <p>New Todo :</p>
           <form
             action=""
@@ -146,7 +147,7 @@ function App() {
         </div>
       </div>
       <div className="flex justify-center w-full">
-        <div className="bg-white w-full md:w-1/2 p-5 border mt-7">
+        <div className="bg-white w-full md:w-3/4 lg:w-1/2 p-5 border mt-7 mx-10">
           <form
             action=""
             className="mt-3 flex justify-between flex-col md:flex-row"
@@ -174,54 +175,54 @@ function App() {
       {todos.map((todo) => {
         return (
           <div className="flex justify-center w-full" key={todo.id}>
-            <div className="bg-white w-full md:w-1/2 p-5 border border-t-0">
-              <ul>
-                <li key={todo.id}>
-                  <div className="flex justify-between">
-                    <div className="w-full flex">
-                      <input
-                        type="checkbox"
-                        className="mr-2"
-                        onChange={() => {
-                          handleDone(todo.id);
-                        }}
-                        checked={todo.status === "done"}
-                      />
-                      <p
-                        className={`text-gray-700 md:ml-7 mt-3 md:mt-2 text-muted ${
-                          todo.status == "done" ? "line-through" : ""
-                        }`}
-                      >
-                        {todo.text}
-                      </p>
-                    </div>
-                    <div className="flex">
-                      <button
-                        className="bg-blue-500 py-2 px-7 text-white hover:bg-blue-700 outline-none mt-3 md:mt-0"
-                        onClick={() => {
-                          handleEdit(todo.id);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                      </button>
-                      <button
-                        className="bg-red-500 py-2 px-7 text-white hover:bg-red-700 outline-none mt-3 md:mt-0"
-                        onClick={() => {
-                          handleDelete(todo.id);
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
+            <div className="bg-white w-full md:w-3/4 lg:w-1/2 p-5 border border-t-0 mx-10">
+              <div className="flex justify-between">
+                <div className="w-full flex">
+                  <input
+                    type="checkbox"
+                    className="mr-2"
+                    onChange={() => {
+                      handleDone(todo.id);
+                    }}
+                    checked={todo.status === "done"}
+                  />
+                  <p
+                    className={`text-gray-700 md:ml-7 mt-3 md:mt-2 text-muted ${
+                      todo.status == "done" ? "line-through" : ""
+                    }`}
+                  >
+                    {todo.text}
+                  </p>
+                </div>
+                <div className="flex">
+                  <button
+                    className="bg-blue-500 py-2 px-7 text-white hover:bg-blue-700 outline-none mt-3 md:mt-0"
+                    onClick={() => {
+                      handleEdit(todo.id);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button
+                    className="bg-red-500 py-2 px-7 text-white hover:bg-red-700 outline-none mt-3 md:mt-0"
+                    onClick={() => {
+                      handleDelete(todo.id);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         );
       })}
-
-      <div className="h-40"></div>
+      <footer className="flex justify-center bg-blue-500 py-5 mt-10 text-white">
+        <p>
+          &copy; {new Date().getFullYear()} by Adiatna Sukmana, made with{" "}
+          <FontAwesomeIcon className="text-red-500" icon={faHeart} />
+        </p>
+      </footer>
     </div>
   );
 }
