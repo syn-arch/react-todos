@@ -4,26 +4,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import swal from "sweetalert";
 
 function App() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      text: "Do something",
-      status: "new",
-    },
-    {
-      id: 2,
-      text: "Do something else",
-      status: "done",
-    },
-  ]);
+  const [todos, setTodos] = useState(() => {
+    const savedTodos = localStorage.getItem("todos");
+    return savedTodos ? JSON.parse(savedTodos) : [];
+  });
   const [input, setInput] = useState("");
   const [editId, setEditId] = useState("");
   const [editInput, setEditInput] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (input == "") {
-      swal("Oops!", "Please enter a task", "error");
+    if (!input) {
+      swal("Oops!", "Please enter a task", "error", {
+        buttons: false,
+        timer: 1000,
+      });
+      return;
     }
     setTodos([
       ...todos,
@@ -40,8 +36,19 @@ function App() {
 
   const handleUpdate = (event) => {
     event.preventDefault();
-    if (editInput == "") {
-      swal("Oops!", "Please enter a task", "error");
+    if (!editId) {
+      swal("Oops!", "Please choose a task", "error", {
+        buttons: false,
+        timer: 1000,
+      });
+      return;
+    }
+    if (!editInput) {
+      swal("Oops!", "Please enter a task", "error", {
+        buttons: false,
+        timer: 1000,
+      });
+      return;
     }
     setTodos([
       ...todos.map((todo) => {
@@ -96,6 +103,10 @@ function App() {
     setEditInput(todos.find((todo) => todo.id === id).text);
     setEditId(id);
   };
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <div className="containers">
@@ -177,7 +188,7 @@ function App() {
                         checked={todo.status === "done"}
                       />
                       <p
-                        className={`text-gray-700 md:ml-7 text-muted ${
+                        className={`text-gray-700 md:ml-7 mt-3 md:mt-2 text-muted ${
                           todo.status == "done" ? "line-through" : ""
                         }`}
                       >
